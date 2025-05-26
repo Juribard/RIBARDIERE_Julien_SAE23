@@ -137,6 +137,14 @@ h1 {
   justify-content: center;
 }
 
+#weatherDetails p {
+  margin-bottom: 15px;
+}
+
+.espacement-intro {
+  margin-bottom: 15px;
+}
+
 .info_meteo {
   display: flex;
   flex-direction: column;

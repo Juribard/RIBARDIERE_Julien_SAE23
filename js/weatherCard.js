@@ -64,7 +64,7 @@ function updateDateTime() {
   let formattedDate = now.toLocaleDateString('fr-FR', options);
   let formattedTime = now.toLocaleTimeString('fr-FR');
 
-  document.getElementById("currentDateTime").textContent = `${formattedDate} ; ${formattedTime}.`;
+  document.getElementById("currentDateTime").textContent = `${formattedDate} ; ${formattedTime}`;
 }
 
 updateDateTime();
