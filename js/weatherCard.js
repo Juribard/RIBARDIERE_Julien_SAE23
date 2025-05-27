@@ -15,6 +15,10 @@ function createCard(data) {
     weatherLongitude.textContent = `Longitude : ${data.forecast.longitude}`;
   }
 
+  // Carte météo
+  if (document.getElementById("latitude").checked && document.getElementById("longitude").checked) {
+    initMap(data.city.latitude, data.city.longitude);
+  }
 
   // Insérer les autres détails météo dans weatherDetails
   weatherDetails.innerHTML = `

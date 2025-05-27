@@ -19,10 +19,12 @@
     ></script>
     <script defer src="./js/weatherCard.js"></script>
     <script defer src="./js/app.js"></script>
+    <script defer src="./js/mapAndCharts.js"></script>
     <title>Instant Weather</title>
   </head>
   <body>
     <header>
+      <img class="logo" src="images/meteo.png">
       <h1>INSTANT WEATHER</h1>
       <p>Votre météo en un clic</p>
       <p>Choisissez votre commune et consultez les prévisions du jour</p>
@@ -49,23 +51,23 @@
           <select id="communeSelect"></select>
           <!--Les options-->
           <fieldset class="option">
-            <label>
+            <label class="option_choix">
               <p>Latitude</p>
               <input type="checkbox" id="latitude">
             </label>
-            <label>
-              <p class="text_choix">Longitude</p>
+            <label class="option_choix">
+              <p>Longitude</p>
               <input type="checkbox" id="longitude">
             </label>
-            <label>
-              <p>Cumul de pluie (mm)</p>
+            <label class="option_choix">
+              <p class="option_charactere">Cumul de pluie (mm)</p>
               <input type="checkbox" id="rainfall">
             </label>
-            <label>
+            <label class="option_choix">
               <p>Vent moyen (km/h)</p>
               <input type="checkbox" id="windSpeed">
             </label>
-            <label>
+            <label class="option_choix">
               <p>Direction du vent (°)</p>
               <input type="checkbox" id="windDirection">
             </label>
@@ -81,8 +83,13 @@
           <p class="espacement-intro" id="weatherLatitude"></p>
           <p class="espacement-intro" id="weatherLongitude"></p>
         </div>
-        <div id="weatherDetails">
-            <!-- Les autres informations météo seront insérées ici -->
+        <div class="info_météo_rangement">
+          <div id="weatherDetails">
+              <!-- Les autres informations météo seront insérées ici -->
+          </div>
+          <div id="weatherMap" style="height: 400px;">
+
+          </div>
         </div>
       </section>
     </main>
