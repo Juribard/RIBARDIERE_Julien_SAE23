@@ -1,57 +1,55 @@
 function createCard(data) {
-  // Sélectionner les éléments HTML statiques
-  let weatherName = document.getElementById("weatherName");
-  let weatherLatitude = document.getElementById("weatherLatitude");
-  let weatherLongitude = document.getElementById("weatherLongitude");
-  let weatherDetails = document.getElementById("weatherDetails");
-  let weatherSection = document.getElementById("weatherInformation");
+  const cardsContainer = document.getElementById("weatherCardsContainer");
+  cardsContainer.innerHTML = "";
 
-  // Mettre à jour le nom de la commune et ses coordonnées
-  weatherName.textContent = `${data.city.name} (${data.city.cp})`;
-  if (document.getElementById("latitude").checked) {
-    weatherLatitude.textContent = `Latitude : ${data.forecast.latitude}`;
-  }
-  if (document.getElementById("longitude").checked) {
-    weatherLongitude.textContent = `Longitude : ${data.forecast.longitude}`;
-  }
 
-  // Carte météo
+  let latitude = [];
+  let longitude = [];
+  let labels = [];
+  let tempMin = [];
+  let tempMax = [];
+  let probRain = [];
+  let sunHours = [];
+  let windSpeed = [];
+  let rr10 = [];
 
-  // Insérer les autres détails météo dans weatherDetails
-  weatherDetails.innerHTML = `
-      <p>Température minimale : ${data.forecast.tmin}°C</p>
-      <p>Température maximale : ${data.forecast.tmax}°C</p>
-      <p>Probabilité de pluie : ${data.forecast.probarain}%</p>
-      <p>Ensoleillement journalier : ${displayHours(data.forecast.sun_hours)}</p>
-  `;
+  data.forEach((dayForecast, index) => {
+    let card = document.createElement("div");
+    card.classList.add("weatherCard");
 
-  // Ajouter les options sélectionnées
-  if (document.getElementById("rainfall").checked) {
-      weatherDetails.innerHTML += `<p>Cumul de pluie : ${data.forecast.rr10} mm</p>`;
-  }
-  if (document.getElementById("windSpeed").checked) {
-      weatherDetails.innerHTML += `<p>Vent moyen : ${data.forecast.wind10m} km/h</p>`;
-  }
-  if (document.getElementById("windDirection").checked) {
-      weatherDetails.innerHTML += `<p>Direction du vent : ${data.forecast.dirwind10m}°</p>`;
-  }
+    card.innerHTML = `
+      <h3>Jour ${index + 1} - ${dayForecast.datetime}</h3>
+      <p>Température minimale : ${dayForecast.tmin}°C</p>
+      <p>Température maximale : ${dayForecast.tmax}°C</p>
+      <p>Probabilité de pluie : ${dayForecast.probarain}%</p>
+      <p>Ensoleillement : ${dayForecast.sun_hours} heures</p>
+      <p>Latitude : ${dayForecast.latitude}</p>
+      <p>Longitude : ${dayForecast.longitude}</p>
+    `;
 
-  // Ajouter un bouton de retour vers le formulaire en dehors des données météo
-  let reloadButton = document.createElement("div");
-  reloadButton.textContent = "Nouvelle recherche";
-  reloadButton.classList.add("reloadButton");
+    if (document.getElementById("rainfall").checked) {
+      card.innerHTML += `<p>Cumul de pluie : ${dayForecast.rr10} mm</p>`;
+    }
+    if (document.getElementById("windSpeed").checked) {
+      card.innerHTML += `<p>Vitesse du vent : ${dayForecast.wind10m} km/h</p>`;
+    }
 
-  // Ajouter le bouton **en dehors** de weatherDetails
-  weatherSection.appendChild(reloadButton);
+    cardsContainer.appendChild(card);
 
-  // Ajouter un listener sur le bouton pour recharger la page
-  reloadButton.addEventListener("click", function () {
-      location.reload();
+    // Stocker les données pour le graphique
+    labels.push(`Jour ${index + 1}`);
+    tempMin.push(dayForecast.tmin);
+    tempMax.push(dayForecast.tmax);
+    probRain.push(dayForecast.probarain);
+    sunHours.push(dayForecast.sun_hours);
+    windSpeed.push(dayForecast.wind10m);
+    rr10.push(dayForecast.rr10);
+    latitude.push(dayForecast.latitude);
+    longitude.push(dayForecast.longitude);
   });
 
-  // Gérer la visibilité des sections
-  document.getElementById("cityForm").style.display = "none";
-  document.getElementById("weatherInformation").style.display = "flex";
+  // Affichage du graphique avec toutes les nouvelles données
+  displayChart(labels, tempMin, tempMax, probRain, sunHours, windSpeed, rr10, latitude, longitude);
 }
 
 
@@ -69,3 +67,5 @@ function updateDateTime() {
 }
 
 updateDateTime();
+
+window.createCard = createCard;

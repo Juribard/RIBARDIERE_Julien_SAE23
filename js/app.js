@@ -53,15 +53,39 @@ function displayCommunes(data) {
 }
 // Fonction pour effectuer la requête API de météo en utilisant le code de la commune sélectionnée
 async function fetchMeteoByCommune(selectedCommune) {
-  try {
-    const response = await fetch(
-      `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${selectedCommune}&days=${selectedDays}`//&days=${selectedDays}
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Erreur lors de la requête API:", error);
-    throw error;
+  const daysRange = document.getElementById("daysRange");
+  const selectedDays = parseInt(daysRange.value); // Convertir en nombre entier
+  const allForecasts = []; // Stocker toutes les prévisions
+
+  if (selectedDays === 1) {
+    try {
+      const response = await fetch(
+        `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${selectedCommune}`
+      );
+      const data = await response.json();
+      if (data.length === 1 && !Array.isArray(data[0])) {
+      data = [data[0]]; // S'assurer que même pour 1 jour, data est un tableau uniforme
+      }
+      return [data.forecast]; // Retourne les données sous forme de tableau
+    } catch (error) {
+      console.error("Erreur lors de la requête API:", error);
+      throw error;
+    }
+  } else {
+    try {
+      for (let compteur = 0; compteur < selectedDays; compteur++) {
+        const response = await fetch(
+          `https://api.meteo-concept.com/api/forecast/daily/${compteur}?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${selectedCommune}`
+        );
+        const data = await response.json();
+        allForecasts.push(data.forecast); // Ajouter chaque prévision météo
+      }
+      console.log("fetchMeteoByCommune renvoie :", allForecasts);
+      return allForecasts; // Retourne toutes les prévisions météo
+    } catch (error) {
+      console.error("Erreur lors de la requête API:", error);
+      throw error;
+    }
   }
 }
 
@@ -100,6 +124,7 @@ validationButton.addEventListener("click", async () => {
   if (selectedCommune) { // si selectedCommune n'est pas vide
     try {
       const data = await fetchMeteoByCommune(selectedCommune, selectedDays);
+      console.log("Données météo récupérées :", data);
       createCard(data, selectedDays);
     } catch (error) {
       console.error("Erreur lors de la requête API meteoConcept:", error);
