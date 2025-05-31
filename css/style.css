@@ -199,41 +199,58 @@ fieldset {
 
 /*--------------------tableau-------------------*/
 .weatherContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px;
-    border: 2px solid #007BFF;
-    background-color: #f8f9fa;
-    width: 100%; /* Assure que le tableau prend toute la largeur */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border: 2px solid #007BFF;
+  background-color: #f8f9fa;
+  width: 100%; /* Assure que le tableau prend toute la largeur */
 }
 
 .weatherRow {
-    display: flex;
-    justify-content: space-around; /* Espacement uniforme */
-    border-bottom: 1px solid #ccc;
-    padding: 5px 0; /* Ajoute un peu d'espace entre les lignes */
+  display: flex;
+  justify-content: space-around; /* Espacement uniforme */
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0; /* Ajoute un peu d'espace entre les lignes */
 }
 
 .headerRow {
-    font-weight: bold;
-    background-color: #007BFF;
-    color: white;
+  font-weight: bold;
+  background-color: #007BFF;
+  color: white;
 }
 
 .weatherCell {
-    flex: 1;
-    padding: 8px;
-    text-align: center;
-    border: 1px solid #ccc; /* Sépare bien les colonnes */
-    min-width: 120px; /* Assure que les cellules sont larges */
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ccc; /* Sépare bien les colonnes */
+  min-width: 120px; /* Assure que les cellules sont larges */
 }
 
 .labelCell {
-    font-weight: bold;
-    background-color: #e9ecef;
+  font-weight: bold;
+  background-color: #e9ecef;
 }
-  
+ 
+/*#weatherInformation.multiDays div {
+}*/
+
+.weatherRow.headerRow {
+  display: flex !important;
+  flex-direction: row !important; 
+  justify-content: space-around; 
+  align-items: center; 
+}
+
+.weatherRow {
+  display: flex !important;
+  flex-direction: row !important;  
+  justify-content: space-around; 
+  align-items: center; 
+}
+
 /* ------------------- MEDIA QUERIES ----------------------- */
 
 @media screen and (max-width: 1024px) {

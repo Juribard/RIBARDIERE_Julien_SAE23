@@ -155,8 +155,8 @@ validationButton.addEventListener("click", async () => {
                 }
             });
 
-console.log("Options sélectionnées après validation :", selectedOptions);
-generateWeatherTable(multiData, selectedOptions);
+          console.log("Options sélectionnées après validation :", selectedOptions);
+          generateWeatherTable(multiData, selectedOptions);
 
             console.log("Options sélectionnées après validation :", selectedOptions);
             generateWeatherTable(multiData, selectedOptions); // On passe bien selectedOptions à la fonction

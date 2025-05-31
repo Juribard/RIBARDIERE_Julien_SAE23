@@ -78,5 +78,10 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
     });
 
     resultSection.appendChild(tableContainer);
+    if (dataArray.length > 1) {
+      resultSection.classList.add("multiDays"); // ✅ Ajoute la classe si plusieurs jours sélectionnés
+    } else {
+      resultSection.classList.remove("multiDays"); // ❌ Supprime la classe si un seul jour
+    }
     resultSection.style.display = "block";
 };
