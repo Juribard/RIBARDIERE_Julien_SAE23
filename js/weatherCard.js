@@ -15,7 +15,6 @@ function createCard(data) {
     weatherLongitude.textContent = `Longitude : ${data.forecast.longitude}`;
   }
 
-  // Carte météo
 
   // Insérer les autres détails météo dans weatherDetails
   weatherDetails.innerHTML = `

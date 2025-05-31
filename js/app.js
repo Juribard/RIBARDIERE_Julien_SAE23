@@ -1,9 +1,13 @@
-// Sélection des éléments
-const codePostalInput = document.getElementById("code-postal");
-const communeSelect = document.getElementById("communeSelect");
-const validationButton = document.getElementById("validationButton");
+// app.js
 
-// Fonction pour effectuer la requête API des communes en utilisant le code postal
+// --------------
+// PARTIE 1 : COMMUNES / CODE POSTAL
+// --------------
+const codePostalInput    = document.getElementById("code-postal");
+const communeSelect      = document.getElementById("communeSelect");
+const validationButton   = document.getElementById("validationButton");
+
+// Requête pour remplir la liste des communes depuis le code postal
 async function fetchCommunesByCodePostal(codePostal) {
   try {
     const response = await fetch(
@@ -11,17 +15,16 @@ async function fetchCommunesByCodePostal(codePostal) {
     );
     const data = await response.json();
     console.table(data);
-    return data;
+    return data; // tableau de communes
   } catch (error) {
-    console.error("Erreur lors de la requête API:", error);
+    console.error("Erreur lors de la requête API communes :", error);
     throw error;
   }
 }
 
-// Fonction pour afficher les communes dans la liste déroulante
+// Affiche les communes dans <select id="communeSelect">
 function displayCommunes(data) {
   communeSelect.innerHTML = "";
-  // S'il y a au moins une commune retournée dans data
   if (data.length) {
     data.forEach((commune) => {
       const option = document.createElement("option");
@@ -29,48 +32,31 @@ function displayCommunes(data) {
       option.textContent = commune.nom;
       communeSelect.appendChild(option);
     });
-    communeSelect.style.display = "block";
+    communeSelect.style.display    = "block";
     validationButton.style.display = "block";
-  }
-  else {
-    // Supprimer un message précédent s’il existe déjà
+  } else {
+    // Message d’erreur si pas de commune valide
     const existingMessage = document.getElementById("error-message");
     if (!existingMessage) {
       const message = document.createElement("p");
       message.id = "error-message";
       message.textContent = "Le code postal saisi n'est pas valide";
-      message.classList.add('errorMessage');
+      message.classList.add("errorMessage");
       document.body.appendChild(message);
     }
-
-    // Masquer les éléments inutiles
-    communeSelect.style.display = "none";
+    communeSelect.style.display    = "none";
     validationButton.style.display = "none";
-
-    // Recharger la page après 3 secondes
     setTimeout(() => location.reload(), 3000);
   }
 }
-// Fonction pour effectuer la requête API de météo en utilisant le code de la commune sélectionnée
-async function fetchMeteoByCommune(selectedCommune) {
-  try {
-    const response = await fetch(
-      `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${selectedCommune}&days=${selectedDays}`//&days=${selectedDays}
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Erreur lors de la requête API:", error);
-    throw error;
-  }
-}
 
-// Ajout de l'écouteur d'événement "input" sur le champ code postal
+// Quand on tape dans le champ “code postal”
 codePostalInput.addEventListener("input", async () => {
-  const codePostal = codePostalInput.value;
-  communeSelect.style.display = "none";
+  const codePostal = codePostalInput.value.trim();
+  communeSelect.style.display    = "none";
   validationButton.style.display = "none";
 
+  // Si 5 chiffres
   if (/^\d{5}$/.test(codePostal)) {
     try {
       const data = await fetchCommunesByCodePostal(codePostal);
@@ -80,31 +66,88 @@ codePostalInput.addEventListener("input", async () => {
         "Une erreur est survenue lors de la recherche de la commune :",
         error
       );
-      throw error;
     }
   }
 });
 
-// Ecouteur d'événements pour afficher le nombre de jours sélectionné
-const daysRange = document.getElementById("daysRange");
-const selectedDays = document.getElementById("selectedDays");
+// --------------
+// PARTIE 2 : MÉTÉO / AFFICHAGE
+// --------------
 
-daysRange.addEventListener("input", () => {
-  selectedDays.textContent = `${daysRange.value} jour${daysRange.value > 1 ? "s" : ""}`;
-});
+// Récupère la prévi d’1 jour (forecast0)
+async function fetchOneDay(inseeCode) {
+  // Viz. la doc : /api/forecast/daily/0
+  const url = `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${inseeCode}`;
+  try {
+    const resp = await fetch(url);
+    const json = await resp.json();
+    return json; // Format JSON classique : { city:{…}, forecast:{…} }
+  } catch (err) {
+    console.error("Erreur fetchOneDay :", err);
+    throw err;
+  }
+}
 
-// Ajout de l'écouteur d'événement "click" sur le bouton de validation
+// Récupère la prévi “jour 0, jour 1, …, jour N-1”, retourne un tableau d’objets `{ forecast: {...} }`
+async function fetchMultipleDays(inseeCode, daysCount) {
+  const allForecasts = [];
+  try {
+    // Note : on boucle de 0 à daysCount-1
+    for (let i = 0; i < daysCount; i++) {
+      const url = `https://api.meteo-concept.com/api/forecast/daily/${i}?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${inseeCode}`;
+      const resp = await fetch(url);
+      const json = await resp.json();
+      // json.forecast est l’objet pour le jour “i”
+      allForecasts.push(json.forecast);
+    }
+    return allForecasts; // ex. [ {day:0, tmin:…, tmax:…, …}, {day:1, …}, … ]
+  } catch (err) {
+    console.error("Erreur fetchMultipleDays :", err);
+    throw err;
+  }
+}
+
+// Affiche le JSON brut (tab d’objets) dans <pre id="result">
+function displayRawJSON(dataArray) {
+  const resultPre = document.getElementById("result");
+  resultPre.textContent = "";
+  resultPre.textContent = JSON.stringify(dataArray, null, 2);
+
+  // Afficher le bloc contenant le résultat
+  document.getElementById("weatherInformation").style.display = "block";
+  // Masquer la carte météo classique
+  document.getElementById("weatherDetails").style.display = "none";
+}
+
+// Au clic sur “Valider”
+const daysRangeElem = document.getElementById("daysRange");
 validationButton.addEventListener("click", async () => {
-  const selectedCommune = communeSelect.value;
-  const selectedDays = daysRange.value;
-  if (selectedCommune) { // si selectedCommune n'est pas vide
+  const insee        = communeSelect.value;
+  const selectedDays = parseInt(daysRangeElem.value, 10);
+
+  if (!insee) return;
+
+  // Cas “1 jour” : on affiche la carte météo classique
+  if (selectedDays === 1) {
     try {
-      const data = await fetchMeteoByCommune(selectedCommune, selectedDays);
-      createCard(data, selectedDays);
-    } catch (error) {
-      console.error("Erreur lors de la requête API meteoConcept:", error);
-      throw error;
+      // On cache le <pre> s’il était visible
+      document.getElementById("result").textContent = "";
+
+      const oneDayData = await fetchOneDay(insee);
+      // createCard() vient de weatherCard.js
+      createCard(oneDayData);
+    } catch (err) {
+      console.error("Erreur lors de la requête 1 jour :", err);
+    }
+  }
+
+  // Cas “2 jours ou plus” : on affiche TOUT le JSON brut
+  else {
+    try {
+      const multiData = await fetchMultipleDays(insee, selectedDays);
+      displayRawJSON(multiData);
+    } catch (err) {
+      console.error("Erreur lors de la requête multiple jours :", err);
     }
   }
 });
-
