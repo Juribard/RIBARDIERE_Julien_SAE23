@@ -126,6 +126,8 @@ validationButton.addEventListener("click", async () => {
     const insee = communeSelect.value;
     const selectedDays = parseInt(daysRangeElem.value, 10);
 
+    document.getElementById("cityForm").style.display = "none";
+
     if (!insee) return;
 
     if (selectedDays === 1) {
@@ -155,14 +157,33 @@ validationButton.addEventListener("click", async () => {
                 }
             });
 
-          console.log("Options sélectionnées après validation :", selectedOptions);
           generateWeatherTable(multiData, selectedOptions);
+          console.log("Options sélectionnées après validation :", selectedOptions);
+          // Création du bouton "Retour"
+          let returnButton = document.createElement("button");
+          returnButton.textContent = "Nouvelle recherche";
+          returnButton.id = "returnButton"; 
+          returnButton.style.display = "block";
+          returnButton.style.margin = "20px auto";
+          returnButton.style.padding = "10px";
+          returnButton.style.backgroundColor = "#0f3359";
+          returnButton.style.color = "white";
+          returnButton.style.border = "none";
+          returnButton.style.cursor = "pointer";
+          returnButton.style.fontSize = "16px";
+          returnButton.style.borderRadius = "5px";
 
-            console.log("Options sélectionnées après validation :", selectedOptions);
-            generateWeatherTable(multiData, selectedOptions); // On passe bien selectedOptions à la fonction
-            console.log("multiData récupéré depuis fetchMultipleDays :", multiData);
+          // Ajoute une action pour recharger la page
+          returnButton.addEventListener("click", () => {
+              location.reload(); // 🔄 Recharge toute la page
+          });
+
+          // ✅ Insère le bouton sous la météo
+          document.getElementById("weatherInformation").appendChild(returnButton);
+
+          console.log("multiData récupéré depuis fetchMultipleDays :", multiData);
         } catch (err) {
-            console.error("Erreur lors de la requête multiple jours :", err);
+          console.error("Erreur lors de la requête multiple jours :", err);
         }
     }
 });

@@ -2,9 +2,11 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
     const resultSection = document.getElementById("weatherInformation");
     resultSection.innerHTML = "";
 
+    // ✅ Correction : Création du container au BON endroit
     let tableContainer = document.createElement("div");
     tableContainer.classList.add("weatherContainer");
 
+    // ✅ Création de l'en-tête avec les dates réelles
     let headerRow = document.createElement("div");
     headerRow.classList.add("weatherRow", "headerRow");
 
@@ -13,15 +15,26 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
     firstHeader.textContent = "Éléments météo";
     headerRow.appendChild(firstHeader);
 
-    dataArray.forEach((_, index) => {
+    dataArray.forEach(dayData => {
         let headerCell = document.createElement("div");
         headerCell.classList.add("weatherCell", "headerCell");
-        headerCell.textContent = `Jour ${index + 1}`;
+        
+        // ✅ Vérifier que `datetime` existe avant de le convertir
+        if (dayData.datetime) {
+            let date = new Date(dayData.datetime);
+            let formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+            headerCell.textContent = formattedDate;
+        } else {
+            headerCell.textContent = "Date inconnue";
+        }
+        
         headerRow.appendChild(headerCell);
     });
 
+    // ✅ Ajout de l'en-tête AVANT les données
     tableContainer.appendChild(headerRow);
 
+    // ✅ Fusionner l'en-tête avec les données
     let essentialElements = {
         "tmin": "Température min (°C)",
         "tmax": "Température max (°C)",
@@ -35,14 +48,15 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         "dirwind10m": "Direction du vent (°)"
     };
 
-    // Ajout des éléments essentiels
-    Object.keys(essentialElements).forEach(element => {
+    let mergedElements = { ...essentialElements, ...selectableElements };
+
+    Object.keys(mergedElements).forEach(element => {
         let row = document.createElement("div");
         row.classList.add("weatherRow");
 
         let labelCell = document.createElement("div");
         labelCell.classList.add("weatherCell", "labelCell");
-        labelCell.textContent = essentialElements[element];
+        labelCell.textContent = mergedElements[element]; // Ajoute l'étiquette en tête
         row.appendChild(labelCell);
 
         dataArray.forEach(dayData => {
@@ -55,33 +69,7 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         tableContainer.appendChild(row);
     });
 
-    // Ajout des options sélectionnées
-    selectedOptions.forEach(element => {
-        if (!selectableElements[element]) return;
-
-        let row = document.createElement("div");
-        row.classList.add("weatherRow");
-
-        let labelCell = document.createElement("div");
-        labelCell.classList.add("weatherCell", "labelCell");
-        labelCell.textContent = selectableElements[element];
-        row.appendChild(labelCell);
-
-        dataArray.forEach(dayData => {
-            let dataCell = document.createElement("div");
-            dataCell.classList.add("weatherCell");
-            dataCell.textContent = dayData[element] !== undefined ? dayData[element] : "-";
-            row.appendChild(dataCell);
-        });
-
-        tableContainer.appendChild(row);
-    });
-
+    // ✅ Ajout du tableau dans la section d'affichage
     resultSection.appendChild(tableContainer);
-    if (dataArray.length > 1) {
-      resultSection.classList.add("multiDays"); // ✅ Ajoute la classe si plusieurs jours sélectionnés
-    } else {
-      resultSection.classList.remove("multiDays"); // ❌ Supprime la classe si un seul jour
-    }
     resultSection.style.display = "block";
 };

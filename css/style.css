@@ -131,7 +131,7 @@ h1 {
 #weatherInformation div {
   text-align: center;
   min-height: 60px;
-  margin: 10px 5px;
+  margin: 5px;
   padding: 5px;
   background-color: var(--color-secondary);
   color: var(--color-font);
@@ -206,37 +206,40 @@ fieldset {
   border: 2px solid #007BFF;
   background-color: #f8f9fa;
   width: 100%; /* Assure que le tableau prend toute la largeur */
+  overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
+  max-width: 100%; 
+  white-space: nowrap;
 }
 
 .weatherRow {
-  display: flex;
-  justify-content: space-around; /* Espacement uniforme */
-  border-bottom: 1px solid #ccc;
-  padding: 5px 0; /* Ajoute un peu d'espace entre les lignes */
-}
-
-.headerRow {
-  font-weight: bold;
-  background-color: #007BFF;
-  color: white;
+    display: flex;
+    justify-content: space-between;
+    min-width: 150px;
+    align-items: center;
+    border-bottom: 1px solid white;
 }
 
 .weatherCell {
+  font-size: 1.2vw;
   flex: 1;
-  padding: 8px;
+  min-width: 120px;
   text-align: center;
-  border: 1px solid #ccc; /* Sépare bien les colonnes */
-  min-width: 120px; /* Assure que les cellules sont larges */
+  padding: 8px;
+  border: 1px solid white;
 }
 
 .labelCell {
-  font-weight: bold;
-  background-color: #e9ecef;
+    font-weight: bold;
+    background-color: #007BFF;
+    color: white;
+}
+
+.headerCell {
+    font-weight: bold;
+    background-color: #0056b3;
+    color: white;
 }
  
-/*#weatherInformation.multiDays div {
-}*/
-
 .weatherRow.headerRow {
   display: flex !important;
   flex-direction: row !important; 
@@ -256,6 +259,9 @@ fieldset {
 @media screen and (max-width: 1024px) {
   #weatherInformation {
     flex-wrap: wrap;
+  }
+  .weatherCell {
+    font-size: 14px;
   }
 
   #weatherInformation div {
