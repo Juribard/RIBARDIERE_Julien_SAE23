@@ -139,7 +139,27 @@ validationButton.addEventListener("click", async () => {
     } else {
         try {
             const multiData = await fetchMultipleDays(insee, selectedDays);
-            generateWeatherTable(multiData); // Ajout du tableau
+            let selectedOptions = [];
+            document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+                if (checkbox.checked) {
+                    // Correspondance entre les ID HTML et les noms des éléments météo
+                    const mapping = {
+                        "rainfall": "rr10",
+                        "windSpeed": "wind10m",
+                        "windDirection": "dirwind10m"
+                    };
+
+                    // Vérifie si l'ID doit être transformé
+                    const mappedID = mapping[checkbox.id] || checkbox.id;
+                    selectedOptions.push(mappedID);
+                }
+            });
+
+console.log("Options sélectionnées après validation :", selectedOptions);
+generateWeatherTable(multiData, selectedOptions);
+
+            console.log("Options sélectionnées après validation :", selectedOptions);
+            generateWeatherTable(multiData, selectedOptions); // On passe bien selectedOptions à la fonction
             console.log("multiData récupéré depuis fetchMultipleDays :", multiData);
         } catch (err) {
             console.error("Erreur lors de la requête multiple jours :", err);

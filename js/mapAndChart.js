@@ -1,54 +1,82 @@
-window.generateWeatherTable = function(dataArray) {
+window.generateWeatherTable = function(dataArray, selectedOptions) {
     const resultSection = document.getElementById("weatherInformation");
     resultSection.innerHTML = "";
 
-    let table = document.createElement("table");
-    table.classList.add("weatherTable");
+    let tableContainer = document.createElement("div");
+    tableContainer.classList.add("weatherContainer");
 
-    let thead = document.createElement("thead");
-    let headerRow = document.createElement("tr");
-    let firstHeader = document.createElement("th");
+    let headerRow = document.createElement("div");
+    headerRow.classList.add("weatherRow", "headerRow");
+
+    let firstHeader = document.createElement("div");
+    firstHeader.classList.add("weatherCell", "headerCell");
     firstHeader.textContent = "Éléments météo";
     headerRow.appendChild(firstHeader);
 
-    dataArray.forEach((dayData, index) => {
-        let th = document.createElement("th");
-        th.textContent = `Jour ${index + 1}`;
-        headerRow.appendChild(th);
+    dataArray.forEach((_, index) => {
+        let headerCell = document.createElement("div");
+        headerCell.classList.add("weatherCell", "headerCell");
+        headerCell.textContent = `Jour ${index + 1}`;
+        headerRow.appendChild(headerCell);
     });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
 
-    let tbody = document.createElement("tbody");
-    let elements = ["tmin", "tmax", "probarain", "sun_hours", "rr10", "wind10m", "dirwind10m"];
-    let labels = {
+    tableContainer.appendChild(headerRow);
+
+    let essentialElements = {
         "tmin": "Température min (°C)",
         "tmax": "Température max (°C)",
         "probarain": "Probabilité de pluie (%)",
-        "sun_hours": "Ensoleillement (h)",
+        "sun_hours": "Ensoleillement (h)"
+    };
+
+    let selectableElements = {
         "rr10": "Cumul de pluie (mm)",
         "wind10m": "Vent moyen (km/h)",
         "dirwind10m": "Direction du vent (°)"
     };
 
-    elements.forEach(element => {
-        let row = document.createElement("tr");
-        let labelCell = document.createElement("td");
-        labelCell.textContent = labels[element];
+    // Ajout des éléments essentiels
+    Object.keys(essentialElements).forEach(element => {
+        let row = document.createElement("div");
+        row.classList.add("weatherRow");
+
+        let labelCell = document.createElement("div");
+        labelCell.classList.add("weatherCell", "labelCell");
+        labelCell.textContent = essentialElements[element];
         row.appendChild(labelCell);
 
         dataArray.forEach(dayData => {
-            let cell = document.createElement("td");
-            cell.textContent = dayData[element] !== undefined ? dayData[element] : "-";
-            row.appendChild(cell);
+            let dataCell = document.createElement("div");
+            dataCell.classList.add("weatherCell");
+            dataCell.textContent = dayData[element] !== undefined ? dayData[element] : "-";
+            row.appendChild(dataCell);
         });
 
-        tbody.appendChild(row);
+        tableContainer.appendChild(row);
     });
 
-    table.appendChild(tbody);
-    resultSection.appendChild(table);
-    console.log("Tableau inséré dans le DOM :", table);
+    // Ajout des options sélectionnées
+    selectedOptions.forEach(element => {
+        if (!selectableElements[element]) return;
+
+        let row = document.createElement("div");
+        row.classList.add("weatherRow");
+
+        let labelCell = document.createElement("div");
+        labelCell.classList.add("weatherCell", "labelCell");
+        labelCell.textContent = selectableElements[element];
+        row.appendChild(labelCell);
+
+        dataArray.forEach(dayData => {
+            let dataCell = document.createElement("div");
+            dataCell.classList.add("weatherCell");
+            dataCell.textContent = dayData[element] !== undefined ? dayData[element] : "-";
+            row.appendChild(dataCell);
+        });
+
+        tableContainer.appendChild(row);
+    });
+
+    resultSection.appendChild(tableContainer);
     resultSection.style.display = "block";
-    resultSection.style.visibility = "visible";
 };
