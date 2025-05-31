@@ -49,8 +49,21 @@ function displayCommunes(data) {
     setTimeout(() => location.reload(), 3000);
   }
 }
+// Fonction pour effectuer la requête API de météo en utilisant le code de la commune sélectionnée
+async function fetchMeteoByCommune(selectedCommune) {
+  try {
+    const response = await fetch(
+      `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${selectedCommune}&days=${selectedDays}`//&days=${selectedDays}
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la requête API:", error);
+    throw error;
+  }
+}
 
-// Quand on tape dans le champ “code postal”
+// Ajout de l'écouteur d'événement "input" sur le champ code postal
 codePostalInput.addEventListener("input", async () => {
   const codePostal = codePostalInput.value.trim();
   communeSelect.style.display    = "none";
@@ -122,32 +135,15 @@ function displayRawJSON(dataArray) {
 // Au clic sur “Valider”
 const daysRangeElem = document.getElementById("daysRange");
 validationButton.addEventListener("click", async () => {
-  const insee        = communeSelect.value;
-  const selectedDays = parseInt(daysRangeElem.value, 10);
-
-  if (!insee) return;
-
-  // Cas “1 jour” : on affiche la carte météo classique
-  if (selectedDays === 1) {
+  const selectedCommune = communeSelect.value;
+  const selectedDays = daysRange.value;
+  if (selectedCommune) { // si selectedCommune n'est pas vide
     try {
-      // On cache le <pre> s’il était visible
-      document.getElementById("result").textContent = "";
-
-      const oneDayData = await fetchOneDay(insee);
-      // createCard() vient de weatherCard.js
-      createCard(oneDayData);
-    } catch (err) {
-      console.error("Erreur lors de la requête 1 jour :", err);
-    }
-  }
-
-  // Cas “2 jours ou plus” : on affiche TOUT le JSON brut
-  else {
-    try {
-      const multiData = await fetchMultipleDays(insee, selectedDays);
-      displayRawJSON(multiData);
-    } catch (err) {
-      console.error("Erreur lors de la requête multiple jours :", err);
+      const data = await fetchMeteoByCommune(selectedCommune, selectedDays);
+      createCard(data, selectedDays);
+    } catch (error) {
+      console.error("Erreur lors de la requête API meteoConcept:", error);
+      throw error;
     }
   }
 });

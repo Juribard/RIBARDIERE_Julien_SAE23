@@ -15,6 +15,7 @@ function createCard(data) {
     weatherLongitude.textContent = `Longitude : ${data.forecast.longitude}`;
   }
 
+  // Carte météo
 
   // Insérer les autres détails météo dans weatherDetails
   weatherDetails.innerHTML = `
@@ -48,9 +49,8 @@ function createCard(data) {
       location.reload();
   });
 
-  // Gérer la visibilité des sections
-  document.getElementById("cityForm").style.display = "none";
-  document.getElementById("weatherInformation").style.display = "flex";
+  // Affichage du graphique avec toutes les nouvelles données
+  displayChart(labels, tempMin, tempMax, probRain, sunHours, windSpeed, rr10, latitude, longitude);
 }
 
 
@@ -68,3 +68,5 @@ function updateDateTime() {
 }
 
 updateDateTime();
+
+window.createCard = createCard;
