@@ -1,71 +1,54 @@
-function displayChart(labels, tempMin, tempMax, probRain, sunHours, windSpeed, rr10, latitude, longitude) {
-  let existingCanvas = document.getElementById("weatherChart");
-  if (existingCanvas) {
-    existingCanvas.remove();
-  }
+window.generateWeatherTable = function(dataArray) {
+    const resultSection = document.getElementById("weatherInformation");
+    resultSection.innerHTML = "";
 
-  let chartContainer = document.getElementById("chartContainer");
-  let canvas = document.createElement("canvas");
-  canvas.id = "weatherChart";
-  chartContainer.appendChild(canvas);
+    let table = document.createElement("table");
+    table.classList.add("weatherTable");
 
-  const ctx = canvas.getContext("2d");
+    let thead = document.createElement("thead");
+    let headerRow = document.createElement("tr");
+    let firstHeader = document.createElement("th");
+    firstHeader.textContent = "Éléments météo";
+    headerRow.appendChild(firstHeader);
 
-  let datasets = [
-    {
-      label: "Température min",
-      data: tempMin,
-      borderColor: "blue",
-      fill: false,
-    },
-    {
-      label: "Température max",
-      data: tempMax,
-      borderColor: "red",
-      fill: false,
-    },
-    {
-      label: "Probabilité de pluie",
-      data: probRain,
-      borderColor: "purple",
-      fill: false,
-    },
-    {
-      label: "Ensoleillement",
-      data: sunHours,
-      borderColor: "yellow",
-      fill: false,
-    }
-  ];
-
-  // Ajouter uniquement les données optionnelles si les cases sont cochées
-  if (document.getElementById("windSpeed").checked) {
-    datasets.push({
-      label: "Vitesse du vent",
-      data: windSpeed,
-      borderColor: "green",
-      fill: false,
+    dataArray.forEach((dayData, index) => {
+        let th = document.createElement("th");
+        th.textContent = `Jour ${index + 1}`;
+        headerRow.appendChild(th);
     });
-  }
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
 
-  if (document.getElementById("rainfall").checked) {
-    datasets.push({
-      label: "Cumul de pluie",
-      data: rr10,
-      borderColor: "cyan",
-      fill: false,
+    let tbody = document.createElement("tbody");
+    let elements = ["tmin", "tmax", "probarain", "sun_hours", "rr10", "wind10m", "dirwind10m"];
+    let labels = {
+        "tmin": "Température min (°C)",
+        "tmax": "Température max (°C)",
+        "probarain": "Probabilité de pluie (%)",
+        "sun_hours": "Ensoleillement (h)",
+        "rr10": "Cumul de pluie (mm)",
+        "wind10m": "Vent moyen (km/h)",
+        "dirwind10m": "Direction du vent (°)"
+    };
+
+    elements.forEach(element => {
+        let row = document.createElement("tr");
+        let labelCell = document.createElement("td");
+        labelCell.textContent = labels[element];
+        row.appendChild(labelCell);
+
+        dataArray.forEach(dayData => {
+            let cell = document.createElement("td");
+            cell.textContent = dayData[element] !== undefined ? dayData[element] : "-";
+            row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
     });
-  }
 
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels,
-      datasets,
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
-  });
-}
+    table.appendChild(tbody);
+    resultSection.appendChild(table);
+    console.log("Tableau inséré dans le DOM :", table);
+    resultSection.style.display = "block";
+    resultSection.style.visibility = "visible";
+};

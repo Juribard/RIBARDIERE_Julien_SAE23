@@ -120,34 +120,29 @@ function displayRawJSON(dataArray) {
 }
 
 // Au clic sur “Valider”
+
 const daysRangeElem = document.getElementById("daysRange");
 validationButton.addEventListener("click", async () => {
-  const insee        = communeSelect.value;
-  const selectedDays = parseInt(daysRangeElem.value, 10);
+    const insee = communeSelect.value;
+    const selectedDays = parseInt(daysRangeElem.value, 10);
 
-  if (!insee) return;
+    if (!insee) return;
 
-  // Cas “1 jour” : on affiche la carte météo classique
-  if (selectedDays === 1) {
-    try {
-      // On cache le <pre> s’il était visible
-      document.getElementById("result").textContent = "";
-
-      const oneDayData = await fetchOneDay(insee);
-      // createCard() vient de weatherCard.js
-      createCard(oneDayData);
-    } catch (err) {
-      console.error("Erreur lors de la requête 1 jour :", err);
+    if (selectedDays === 1) {
+        try {
+            document.getElementById("result").textContent = "";
+            const oneDayData = await fetchOneDay(insee);
+            createCard(oneDayData);
+        } catch (err) {
+            console.error("Erreur lors de la requête 1 jour :", err);
+        }
+    } else {
+        try {
+            const multiData = await fetchMultipleDays(insee, selectedDays);
+            generateWeatherTable(multiData); // Ajout du tableau
+            console.log("multiData récupéré depuis fetchMultipleDays :", multiData);
+        } catch (err) {
+            console.error("Erreur lors de la requête multiple jours :", err);
+        }
     }
-  }
-
-  // Cas “2 jours ou plus” : on affiche TOUT le JSON brut
-  else {
-    try {
-      const multiData = await fetchMultipleDays(insee, selectedDays);
-      displayRawJSON(multiData);
-    } catch (err) {
-      console.error("Erreur lors de la requête multiple jours :", err);
-    }
-  }
 });
