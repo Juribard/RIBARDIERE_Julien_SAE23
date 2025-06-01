@@ -114,7 +114,7 @@ function displayRawJSON(dataArray) {
   resultPre.textContent = JSON.stringify(dataArray, null, 2);
 
   // Afficher le bloc contenant le résultat
-  document.getElementById("weatherInformation").style.display = "block";
+  //document.getElementById("weatherInformation").style.display = "block";
   // Masquer la carte météo classique
   document.getElementById("weatherDetails").style.display = "none";
 }
@@ -133,6 +133,7 @@ validationButton.addEventListener("click", async () => {
     if (selectedDays === 1) {
         try {
             document.getElementById("result").textContent = "";
+            document.getElementById("weatherInformation").style.display = "block";
             const oneDayData = await fetchOneDay(insee);
             createCard(oneDayData);
         } catch (err) {
@@ -140,24 +141,37 @@ validationButton.addEventListener("click", async () => {
         }
     } else {
         try {
-            const multiData = await fetchMultipleDays(insee, selectedDays);
-            let selectedOptions = [];
-            document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
-                if (checkbox.checked) {
-                    // Correspondance entre les ID HTML et les noms des éléments météo
-                    const mapping = {
-                        "rainfall": "rr10",
-                        "windSpeed": "wind10m",
-                        "windDirection": "dirwind10m"
-                    };
+          // ...dans le else du bouton Valider...
+          const multiData = await fetchMultipleDays(insee, selectedDays);
+          document.getElementById("weatherInformation").style.display = "block";
+          // Récupère les infos de la ville (latitude/longitude) via une requête API
+          const cityInfoResp = await fetch(`https://geo.api.gouv.fr/communes/${insee}`);
+          const cityInfo = await cityInfoResp.json();
 
-                    // Vérifie si l'ID doit être transformé
-                    const mappedID = mapping[checkbox.id] || checkbox.id;
-                    selectedOptions.push(mappedID);
-                }
-            });
+          document.getElementById("coordonnees").style.display = "block";
+          console.log("COORDONNÉES :", cityInfo);
+          document.getElementById("currentDateTime").textContent = `Date : ${new Date().toLocaleString()}`;
 
+          if (multiData && multiData[0] && multiData[0].latitude !== undefined && multiData[0].longitude !== undefined) {
+              document.getElementById("weatherLatitude").textContent = `Latitude : ${multiData[0].latitude}`;
+              document.getElementById("weatherLongitude").textContent = `Longitude : ${multiData[0].longitude}`;
+          } else {
+              document.getElementById("weatherLatitude").textContent = "Latitude : inconnue";
+              document.getElementById("weatherLongitude").textContent = "Longitude : inconnue";
+          }
+
+          const showLat = document.getElementById("latitude").checked;
+          const showLon = document.getElementById("longitude").checked;
+
+          document.getElementById("weatherLatitude").style.display = showLat ? "block" : "none";
+          document.getElementById("weatherLongitude").style.display = showLon ? "block" : "none";
+
+          // Récupère les options sélectionnées par l'utilisateur
+          const selectedOptions = Array.from(document.querySelectorAll('fieldset.option input[type="checkbox"]:checked')).map(cb => cb.id);
+
+          // Affiche le tableau météo multi-jours
           generateWeatherTable(multiData, selectedOptions);
+
           console.log("Options sélectionnées après validation :", selectedOptions);
           // Création du bouton "Retour"
           let returnButton = document.createElement("button");

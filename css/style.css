@@ -171,6 +171,35 @@ h1 {
   border: 2px solid var(--color-secondary);
   color: var(--color-secondary);
 }
+/*-----Les_coordonnées*/
+#coordonnees {
+  display: block !important;
+  background: #e0f7fa !important;
+  color: black !important;
+  border: 2px solid #e0f7fa !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+  margin-bottom: 10px !important;
+  text-align: left !important;
+}
+
+#coordonnees p {
+  color: black !important;
+}
+
+#weatherInformation #coordonnees {
+  display: block !important;
+  background: #e0f7fa !important;
+  color: black !important;
+  border: 2px solid #e0f7fa !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+  margin-bottom: 10px !important;
+}
+#weatherInformation #coordonnees p {
+  color: black !important;
+}
+
 
 /*-----------------Les Options-------------------------------*/
 fieldset {

@@ -1,6 +1,8 @@
 window.generateWeatherTable = function(dataArray, selectedOptions) {
     const resultSection = document.getElementById("weatherInformation");
-    resultSection.innerHTML = "";
+    // Efface seulement le tableau précédent, pas tout le contenu
+    const oldTable = resultSection.querySelector('.weatherContainer');
+    if (oldTable) oldTable.remove();
 
     // ✅ Correction : Création du container au BON endroit
     let tableContainer = document.createElement("div");
