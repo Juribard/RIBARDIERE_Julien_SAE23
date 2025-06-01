@@ -77,7 +77,9 @@ codePostalInput.addEventListener("input", async () => {
 // Récupère la prévi d’1 jour (forecast0)
 async function fetchOneDay(inseeCode) {
   // Viz. la doc : /api/forecast/daily/0
-  const url = `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${inseeCode}`;
+  //4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091 ->mon token
+  //89f4a75d26db4a6cb6743a391b78ec097c5f06235912b50eca0a94dca1579e6d -> token enseignant
+  const url = `https://api.meteo-concept.com/api/forecast/daily/0?token=89f4a75d26db4a6cb6743a391b78ec097c5f06235912b50eca0a94dca1579e6d&insee=${inseeCode}`;
   try {
     const resp = await fetch(url);
     const json = await resp.json();
@@ -94,7 +96,7 @@ async function fetchMultipleDays(inseeCode, daysCount) {
   try {
     // Note : on boucle de 0 à daysCount-1
     for (let i = 0; i < daysCount; i++) {
-      const url = `https://api.meteo-concept.com/api/forecast/daily/${i}?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${inseeCode}`;
+      const url = `https://api.meteo-concept.com/api/forecast/daily/${i}?token=89f4a75d26db4a6cb6743a391b78ec097c5f06235912b50eca0a94dca1579e6d&insee=${inseeCode}`;
       const resp = await fetch(url);
       const json = await resp.json();
       // json.forecast est l’objet pour le jour “i”
@@ -141,12 +143,19 @@ validationButton.addEventListener("click", async () => {
         }
     } else {
         try {
-          // ...dans le else du bouton Valider...
+
           const multiData = await fetchMultipleDays(insee, selectedDays);
           document.getElementById("weatherInformation").style.display = "block";
           // Récupère les infos de la ville (latitude/longitude) via une requête API
           const cityInfoResp = await fetch(`https://geo.api.gouv.fr/communes/${insee}`);
           const cityInfo = await cityInfoResp.json();
+          // Après avoir récupéré cityInfo depuis l'API geo.api.gouv.fr/communes
+          if (cityInfo && cityInfo.nom && cityInfo.codesPostaux && cityInfo.codesPostaux.length > 0) {
+              document.getElementById("weatherName").textContent = `${cityInfo.nom} (${cityInfo.codesPostaux[0]})`;
+          } else {
+              document.getElementById("weatherName").textContent = "Commune inconnue";
+          }
+          document.getElementById("weatherName").style.textAlign = "center";
 
           document.getElementById("coordonnees").style.display = "block";
           console.log("COORDONNÉES :", cityInfo);
@@ -168,6 +177,8 @@ validationButton.addEventListener("click", async () => {
 
           // Récupère les options sélectionnées par l'utilisateur
           const selectedOptions = Array.from(document.querySelectorAll('fieldset.option input[type="checkbox"]:checked')).map(cb => cb.id);
+
+          document.querySelector('.info_météo_rangement').style.display = "none";
 
           // Affiche le tableau météo multi-jours
           generateWeatherTable(multiData, selectedOptions);
