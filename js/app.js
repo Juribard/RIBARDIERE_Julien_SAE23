@@ -234,3 +234,25 @@ const selectedDaysElem = document.getElementById("selectedDays");
 daysRangeElem.addEventListener("input", () => {
     selectedDaysElem.textContent = `${daysRangeElem.value} jour${daysRangeElem.value > 1 ? 's' : ''}`;
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Récupère tous les boutons et tous les canvas dans .graphique
+    const graphDiv = document.querySelector('.graphique');
+    if (!graphDiv) return;
+    const buttons = graphDiv.querySelectorAll('.graph_clique');
+    const canvases = graphDiv.querySelectorAll('canvas');
+
+    buttons.forEach((btn, i) => {
+        btn.style.cursor = "pointer";
+        btn.addEventListener('click', () => {
+            // Toggle l'affichage du canvas correspondant
+            if (canvases[i].style.display === "none") {
+                canvases[i].style.display = "block";
+            } else {
+                canvases[i].style.display = "none";
+            }
+        });
+        // Par défaut, tu peux masquer les canvas si tu veux :
+        canvases[i].style.display = "none";
+    });
+});

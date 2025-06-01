@@ -27,7 +27,7 @@
     <header>
       <img class="logo" src="images/meteo.png">
       <h1>INSTANT WEATHER</h1>
-      <p>Votre météo en 9 clic!</p>
+      <p>Votre météo en 9 clic max!</p>
       <p>Choisissez votre commune et consultez les prévisions du jour</p>
     </header>
     <main>
@@ -91,9 +91,13 @@
         </div>
         <pre id="result" style="background:#f4f4f4; padding:10px; overflow:auto; max-height:400px;"></pre>
         <div class="graphique">
+          <p class="graph_clique">⬇️ Evolution des températures ⬇️</p>
           <canvas id="tempChart" width="600" height="300" style="margin: 30px auto; display: block;"></canvas>
+          <p class="graph_clique">⬇️ Ensoleillement par jour ⬇️</p>
           <canvas id="sunChart" width="600" height="300" style="margin: 30px auto; display: block;"></canvas>
+          <p class="graph_clique">⬇️ Précipitation par jour ⬇️</p>
           <canvas id="rainChart" width="600" height="300" style="margin: 30px auto; display: block;"></canvas>
+          <p class="graph_clique">⬇️ Vent moyen par jour ⬇️</p>
           <canvas id="windChart" width="600" height="300" style="margin: 30px auto; display: block;"></canvas>
         </div>
       </section>

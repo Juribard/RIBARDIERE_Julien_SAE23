@@ -285,6 +285,26 @@ fieldset {
   width: 100%;
   
 }
+
+.graph_clique {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  font: bolder;
+  margin-bottom: 5px;
+}
+
+.graphique canvas {
+  width: 75% !important;
+  max-width: 900px;
+  min-width: 200px;
+  height: 300px;
+  margin: 0 5px 0 15px;
+  display: block;
+  box-sizing: border-box;
+}
+
 /* ------------------- MEDIA QUERIES ----------------------- */
 
 @media screen and (max-width: 1024px) {
@@ -295,6 +315,13 @@ fieldset {
     font-size: 14px;
   }
 
+}
+
+@media screen and (max-width: 600px) {
+  .graphique canvas {
+    width: 98% !important;
+    min-width: 0;
+  }
 }
 
 @media screen and (max-width: 425px) {
