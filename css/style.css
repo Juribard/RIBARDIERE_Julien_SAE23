@@ -274,7 +274,14 @@ fieldset {
   justify-content: space-around; 
   align-items: center; 
 }
-
+/*---------------graphique-----------------*/
+.graphique {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto;
+  width: 80%;
+}
 /* ------------------- MEDIA QUERIES ----------------------- */
 
 @media screen and (max-width: 1024px) {

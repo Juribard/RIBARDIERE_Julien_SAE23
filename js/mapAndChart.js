@@ -84,5 +84,76 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
 
     // ✅ Ajout du tableau dans la section d'affichage
     resultSection.appendChild(tableContainer);
+        let graphiqueDiv = document.querySelector('.graphique');
+    if (graphiqueDiv) {
+        resultSection.appendChild(graphiqueDiv);
+    }
     resultSection.style.display = "block";
+};
+
+window.showTemperatureChart = function(dataArray) {
+    // Prépare les labels (dates)
+    const labels = dataArray.map(day => {
+        if (day.datetime) {
+            const date = new Date(day.datetime);
+            return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth()+1).toString().padStart(2, '0')}`;
+        }
+        return "Date";
+    });
+    // Prépare les datasets
+    const tmin = dataArray.map(day => day.tmin);
+    const tmax = dataArray.map(day => day.tmax);
+    const tavg = dataArray.map(day => (day.tmin + day.tmax) / 2);
+
+    // Détruit l'ancien graphique s'il existe
+    if (window.tempChartInstance) window.tempChartInstance.destroy();
+
+    const ctx = document.getElementById('tempChart').getContext('2d');
+    window.tempChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Température min (°C)',
+                    data: tmin,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0,0,255,0.1)',
+                    fill: false
+                },
+                {
+                    label: 'Température max (°C)',
+                    data: tmax,
+                    borderColor: 'red',
+                    backgroundColor: 'rgba(255,0,0,0.1)',
+                    fill: false
+                },
+                {
+                    label: 'Température moyenne (°C)',
+                    data: tavg,
+                    borderColor: 'orange',
+                    backgroundColor: 'rgba(255,165,0,0.1)',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Évolution des températures' }
+            }
+        },
+        plugins: [{
+            // Ce plugin dessine le fond blanc avant le rendu du graphique
+            beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        }]
+    });
 };
