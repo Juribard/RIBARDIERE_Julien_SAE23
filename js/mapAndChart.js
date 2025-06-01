@@ -48,25 +48,36 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         "dirwind10m": "Direction du vent (°)"
     };
 
-    let mergedElements = { ...essentialElements, ...selectableElements };
+    // 1) On part des éléments toujours visibles
+    let elementsToShow = { ...essentialElements };
 
-    Object.keys(mergedElements).forEach(element => {
-        let row = document.createElement("div");
-        row.classList.add("weatherRow");
+    // 2) On n’ajoute que les options réellement cochées
+    selectedOptions.forEach(mappedID => {
+    if (selectableElements[mappedID]) {
+        elementsToShow[mappedID] = selectableElements[mappedID];
+    }
+    });
 
-        let labelCell = document.createElement("div");
-        labelCell.classList.add("weatherCell", "labelCell");
-        labelCell.textContent = mergedElements[element]; // Ajoute l'étiquette en tête
-        row.appendChild(labelCell);
+    // 3) On boucle uniquement sur ces clés
+    Object.keys(elementsToShow).forEach(elementKey => {
+    let row = document.createElement("div");
+    row.classList.add("weatherRow");
 
-        dataArray.forEach(dayData => {
-            let dataCell = document.createElement("div");
-            dataCell.classList.add("weatherCell");
-            dataCell.textContent = dayData[element] !== undefined ? dayData[element] : "-";
-            row.appendChild(dataCell);
-        });
+    // cellule d’étiquette
+    let labelCell = document.createElement("div");
+    labelCell.classList.add("weatherCell", "labelCell");
+    labelCell.textContent = elementsToShow[elementKey];
+    row.appendChild(labelCell);
 
-        tableContainer.appendChild(row);
+    // cellule par jour
+    dataArray.forEach(dayData => {
+        let dataCell = document.createElement("div");
+        dataCell.classList.add("weatherCell");
+        dataCell.textContent = dayData[elementKey] !== undefined ? dayData[elementKey] : "-";
+        row.appendChild(dataCell);
+    });
+
+    tableContainer.appendChild(row);
     });
 
     // ✅ Ajout du tableau dans la section d'affichage
