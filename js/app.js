@@ -136,6 +136,7 @@ validationButton.addEventListener("click", async () => {
         try {
             document.getElementById("result").textContent = "";
             document.getElementById("weatherInformation").style.display = "block";
+            document.querySelector('.graphique').style.display = "none";
             const oneDayData = await fetchOneDay(insee);
             createCard(oneDayData);
         } catch (err) {
@@ -146,6 +147,7 @@ validationButton.addEventListener("click", async () => {
 
           const multiData = await fetchMultipleDays(insee, selectedDays);
           document.getElementById("weatherInformation").style.display = "block";
+          document.querySelector('.graphique').style.display = "flex";
           // Récupère les infos de la ville (latitude/longitude) via une requête API
           const cityInfoResp = await fetch(`https://geo.api.gouv.fr/communes/${insee}`);
           const cityInfo = await cityInfoResp.json();
@@ -187,10 +189,13 @@ validationButton.addEventListener("click", async () => {
           window.showSunChart(multiData);
           console.log("Options cochées :", selectedOptions);
           window.showRainChart(multiData, selectedOptions.includes('rainfall'));
+          const windCanvas = document.getElementById('windChart');
           if (selectedOptions.includes('windSpeed')) {
+              windCanvas.style.display = 'block';
               window.showWindChart(multiData);
-          } else if (window.windChartInstance) {
-              window.windChartInstance.destroy();
+          } else {
+              windCanvas.style.display = 'none';
+              if (window.windChartInstance) window.windChartInstance.destroy();
           }
 
           console.log("Options sélectionnées après validation :", selectedOptions);
