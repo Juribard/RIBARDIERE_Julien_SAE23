@@ -187,6 +187,11 @@ validationButton.addEventListener("click", async () => {
           window.showSunChart(multiData);
           console.log("Options cochées :", selectedOptions);
           window.showRainChart(multiData, selectedOptions.includes('rainfall'));
+          if (selectedOptions.includes('windSpeed')) {
+              window.showWindChart(multiData);
+          } else if (window.windChartInstance) {
+              window.windChartInstance.destroy();
+          }
 
           console.log("Options sélectionnées après validation :", selectedOptions);
           // Création du bouton "Retour"

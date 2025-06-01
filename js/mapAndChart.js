@@ -304,3 +304,56 @@ window.showRainChart = function(dataArray, showRain) {
         }]
     });
 };
+
+window.showWindChart = function(dataArray) {
+    const labels = dataArray.map(day => {
+        if (day.datetime) {
+            const date = new Date(day.datetime);
+            return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth()+1).toString().padStart(2, '0')}`;
+        }
+        return "Date";
+    });
+    const wind = dataArray.map(day => day.wind10m);
+
+    if (window.windChartInstance) window.windChartInstance.destroy();
+
+    const ctx = document.getElementById('windChart').getContext('2d');
+    window.windChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Vent moyen (km/h)",
+                data: wind,
+                borderColor: 'purple',
+                backgroundColor: 'rgba(128,0,128,0.1)',
+                fill: false,
+                tension: 0.2,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: "Évolution du vent moyen" }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: "km/h" }
+                }
+            }
+        },
+        plugins: [{
+            beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        }]
+    });
+};
