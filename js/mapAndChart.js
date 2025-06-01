@@ -275,22 +275,24 @@ window.showRainChart = function(dataArray, showRain) {
                 legend: { position: 'top' },
                 title: { display: true, text: showRain ? "Cumul & Probabilité de pluie" : "Probabilité de pluie" }
             },
-            scales: {
-                y1: {
-                    type: 'linear',
-                    position: 'left',
-                    min: 0,
-                    max: 100,
-                    title: { display: true, text: "Probabilité (%)" }
-                },
-                y2: showRain ? {
+        scales: {
+            y1: {
+                type: 'linear',
+                position: 'left',
+                min: 0,
+                max: 100,
+                title: { display: true, text: "Probabilité (%)" }
+            },
+            ...(showRain ? {
+                y2: {
                     type: 'linear',
                     position: 'right',
                     min: 0,
                     title: { display: true, text: "Cumul (mm)" },
                     grid: { drawOnChartArea: false }
-                } : undefined
-            }
+                }
+            } : {})
+        }
         },
         plugins: [{
             beforeDraw: (chart) => {
