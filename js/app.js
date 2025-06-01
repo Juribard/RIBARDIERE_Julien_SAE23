@@ -185,6 +185,7 @@ validationButton.addEventListener("click", async () => {
           // Affiches les graphiques
           window.showTemperatureChart(multiData);
           window.showSunChart(multiData);
+          window.showRainChart(multiData, selectedOptions.includes('rr10'));
 
           console.log("Options sélectionnées après validation :", selectedOptions);
           // Création du bouton "Retour"

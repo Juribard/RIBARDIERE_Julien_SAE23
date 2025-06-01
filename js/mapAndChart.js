@@ -209,3 +209,84 @@ window.showSunChart = function(dataArray) {
         }]
     });
 };
+
+window.showRainChart = function(dataArray, showRain) {
+    const labels = dataArray.map(day => {
+        if (day.datetime) {
+            const date = new Date(day.datetime);
+            return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth()+1).toString().padStart(2, '0')}`;
+        }
+        return "Date";
+    });
+    const rain = dataArray.map(day => day.rr10); // cumul de pluie (mm)
+    const prob = dataArray.map(day => day.probarain); // probabilité de pluie (%)
+
+    // Détruit l'ancien graphique s'il existe
+    if (window.rainChartInstance) window.rainChartInstance.destroy();
+
+    const ctx = document.getElementById('rainChart').getContext('2d');
+    let datasets = [
+        {
+            type: 'line',
+            label: 'Probabilité de pluie (%)',
+            data: prob,
+            borderColor: 'green',
+            backgroundColor: 'rgba(0,255,0,0.1)',
+            fill: false,
+            yAxisID: 'y1',
+            tension: 0.2,
+            pointRadius: 4
+        }
+    ];
+    if (showRain) {
+        datasets.unshift({
+            type: 'bar',
+            label: 'Cumul de pluie (mm)',
+            data: rain,
+            backgroundColor: 'rgba(0, 123, 255, 0.5)',
+            borderColor: 'blue',
+            borderWidth: 1,
+            yAxisID: 'y2'
+        });
+    }
+
+    window.rainChartInstance = new Chart(ctx, {
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: showRain ? "Cumul & Probabilité de pluie" : "Probabilité de pluie" }
+            },
+            scales: {
+                y1: {
+                    type: 'linear',
+                    position: 'left',
+                    min: 0,
+                    max: 100,
+                    title: { display: true, text: "Probabilité (%)" }
+                },
+                y2: showRain ? {
+                    type: 'linear',
+                    position: 'right',
+                    min: 0,
+                    title: { display: true, text: "Cumul (mm)" },
+                    grid: { drawOnChartArea: false }
+                } : undefined
+            }
+        },
+        plugins: [{
+            beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        }]
+    });
+};
