@@ -44,20 +44,32 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         "sun_hours": "Ensoleillement (h)"
     };
 
-    let selectableElements = {
-        "rr10": "Cumul de pluie (mm)",
-        "wind10m": "Vent moyen (km/h)",
-        "dirwind10m": "Direction du vent (°)"
+    //let selectableElements = {
+    //    "rr10": "Cumul de pluie (mm)",
+    //    "wind10m": "Vent moyen (km/h)",
+    //    "dirwind10m": "Direction du vent (°)"
+    //};
+    const optionIdToDataKey = {
+        rainfall: "rr10",
+        windSpeed: "wind10m",
+        windDirection: "dirwind10m"
     };
+
+    // Libellés pour l'affichage
+    const selectableElements = {
+        rainfall: "Cumul de pluie (mm)",
+        windSpeed: "Vent moyen (km/h)",
+        windDirection: "Direction du vent (°)"
+};
 
     // 1) On part des éléments toujours visibles
     let elementsToShow = { ...essentialElements };
 
     // 2) On n’ajoute que les options réellement cochées
-    selectedOptions.forEach(mappedID => {
-    if (selectableElements[mappedID]) {
-        elementsToShow[mappedID] = selectableElements[mappedID];
-    }
+    selectedOptions.forEach(optionId => {
+        if (selectableElements[optionId]) {
+            elementsToShow[optionId] = selectableElements[optionId];
+        }
     });
 
     // 3) On boucle uniquement sur ces clés
@@ -75,7 +87,9 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
     dataArray.forEach(dayData => {
         let dataCell = document.createElement("div");
         dataCell.classList.add("weatherCell");
-        dataCell.textContent = dayData[elementKey] !== undefined ? dayData[elementKey] : "-";
+        // Utilise le mapping pour les options sélectionnées, sinon la clé directe (pour les essentiels)
+        let dataKey = optionIdToDataKey[elementKey] || elementKey;
+        dataCell.textContent = dayData[dataKey] !== undefined ? dayData[dataKey] : "-";
         row.appendChild(dataCell);
     });
 
