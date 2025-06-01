@@ -157,3 +157,55 @@ window.showTemperatureChart = function(dataArray) {
         }]
     });
 };
+
+window.showSunChart = function(dataArray) {
+    const labels = dataArray.map(day => {
+        if (day.datetime) {
+            const date = new Date(day.datetime);
+            return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth()+1).toString().padStart(2, '0')}`;
+        }
+        return "Date";
+    });
+    const sunHours = dataArray.map(day => day.sun_hours);
+
+    // Détruit l'ancien graphique s'il existe
+    if (window.sunChartInstance) window.sunChartInstance.destroy();
+
+    const ctx = document.getElementById('sunChart').getContext('2d');
+    window.sunChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Ensoleillement (heures)",
+                data: sunHours,
+                backgroundColor: 'gold',
+                borderColor: 'orange',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: "Ensoleillement par jour" }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: "Heures" }
+                }
+            }
+        },
+        plugins: [{
+            beforeDraw: (chart) => {
+                const ctx = chart.canvas.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        }]
+    });
+};

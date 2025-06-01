@@ -182,7 +182,9 @@ validationButton.addEventListener("click", async () => {
 
           // Affiche le tableau météo multi-jours
           generateWeatherTable(multiData, selectedOptions);
+          // Affiches les graphiques
           window.showTemperatureChart(multiData);
+          window.showSunChart(multiData);
 
           console.log("Options sélectionnées après validation :", selectedOptions);
           // Création du bouton "Retour"
