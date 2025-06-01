@@ -171,7 +171,7 @@ h1 {
   border: 2px solid var(--color-secondary);
   color: var(--color-secondary);
 }
-/*-----Les_coordonnées*/
+/*-----Les_coordonnées--------------*/
 #coordonnees {
   display: none;
   background-color: var(--color-secondary);
@@ -226,8 +226,6 @@ fieldset {
   flex-direction: column;
   gap: 5px;
   padding: 10px;
-  border: 2px solid #007BFF;
-  background-color: #f8f9fa;
   width: 100%; /* Assure que le tableau prend toute la largeur */
   overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
   max-width: 100%; 
@@ -281,7 +279,7 @@ fieldset {
   align-items: center;
   gap: 20px; 
   padding: 0;
-  margin: 0 auto;
+  margin-top: 10px;
   width: 100%;
   
 }
