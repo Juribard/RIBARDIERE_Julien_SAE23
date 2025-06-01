@@ -187,3 +187,10 @@ validationButton.addEventListener("click", async () => {
         }
     }
 });
+
+const selectedDaysElem = document.getElementById("selectedDays");
+
+// ✅ Mettre à jour le texte en fonction du curseur
+daysRangeElem.addEventListener("input", () => {
+    selectedDaysElem.textContent = `${daysRangeElem.value} jour${daysRangeElem.value > 1 ? 's' : ''}`;
+});

@@ -195,7 +195,7 @@ fieldset {
 }
 /*-----------------donnée_1_jour-----------------*/
 .info_météo_rangement {
-  margin-bottom: 5px;
+  margin-top: 5px ;
 }
 
 /*--------------------tableau-------------------*/
@@ -215,17 +215,14 @@ fieldset {
 .weatherRow {
     display: flex;
     justify-content: space-between;
-    /*min-width: 150px;*/
     align-items: center;
     border-bottom: 1px solid white;
 }
 
 .weatherCell {
   font-size: 1.2vw;
-  /*flex: 1;*/
   min-width: 120px;
   text-align: center;
-  /*padding: 8px;*/
   margin: 0;
   border: 1px solid white;
 }
@@ -247,7 +244,6 @@ fieldset {
   flex-direction: row !important; 
   justify-content: space-around; 
   align-items: center; 
-  /*margin-left: auto;*/
 }
 
 .weatherRow {
@@ -267,10 +263,6 @@ fieldset {
     font-size: 14px;
   }
 
-  /*#weatherInformation div {
-    margin-bottom: 5px;
-    padding: 0 10px 5px 10px;
-  }*/
 }
 
 @media screen and (max-width: 425px) {
