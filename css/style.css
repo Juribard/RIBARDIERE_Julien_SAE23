@@ -130,16 +130,13 @@ h1 {
 
 #weatherInformation div {
   text-align: center;
-  min-height: 60px;
-  margin: 5px;
-  padding: 5px;
   background-color: var(--color-secondary);
   color: var(--color-font);
   border: 2px solid var(--color-secondary);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /*align-items: center;*/
   justify-content: center;
 }
 
@@ -196,6 +193,10 @@ fieldset {
   justify-content: center;
   flex-wrap: wrap;
 }
+/*-----------------donnée_1_jour-----------------*/
+.info_météo_rangement {
+  margin-bottom: 5px;
+}
 
 /*--------------------tableau-------------------*/
 .weatherContainer {
@@ -214,17 +215,18 @@ fieldset {
 .weatherRow {
     display: flex;
     justify-content: space-between;
-    min-width: 150px;
+    /*min-width: 150px;*/
     align-items: center;
     border-bottom: 1px solid white;
 }
 
 .weatherCell {
   font-size: 1.2vw;
-  flex: 1;
+  /*flex: 1;*/
   min-width: 120px;
   text-align: center;
-  padding: 8px;
+  /*padding: 8px;*/
+  margin: 0;
   border: 1px solid white;
 }
 
@@ -245,6 +247,7 @@ fieldset {
   flex-direction: row !important; 
   justify-content: space-around; 
   align-items: center; 
+  /*margin-left: auto;*/
 }
 
 .weatherRow {
@@ -264,9 +267,10 @@ fieldset {
     font-size: 14px;
   }
 
-  #weatherInformation div {
-    width: 98%;
-  }
+  /*#weatherInformation div {
+    margin-bottom: 5px;
+    padding: 0 10px 5px 10px;
+  }*/
 }
 
 @media screen and (max-width: 425px) {
