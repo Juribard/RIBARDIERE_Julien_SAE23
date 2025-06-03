@@ -79,7 +79,7 @@ async function fetchOneDay(inseeCode) {
   // Viz. la doc : /api/forecast/daily/0
   //4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091 ->mon token
   //89f4a75d26db4a6cb6743a391b78ec097c5f06235912b50eca0a94dca1579e6d -> token enseignant
-  const url = `https://api.meteo-concept.com/api/forecast/daily/0?token=89f4a75d26db4a6cb6743a391b78ec097c5f06235912b50eca0a94dca1579e6d&insee=${inseeCode}`;
+  const url = `https://api.meteo-concept.com/api/forecast/daily/0?token=4bba169b3e3365061d39563419ab23e5016c0f838ba282498439c41a00ef1091&insee=${inseeCode}`;
   try {
     const resp = await fetch(url);
     const json = await resp.json();
@@ -191,7 +191,7 @@ validationButton.addEventListener("click", async () => {
           window.showRainChart(multiData, selectedOptions.includes('rainfall'));
           const windCanvas = document.getElementById('windChart');
           if (selectedOptions.includes('windSpeed')) {
-              windCanvas.style.display = 'block';
+              windCanvas.style.display = 'none';
               window.showWindChart(multiData);
           } else {
               windCanvas.style.display = 'none';
