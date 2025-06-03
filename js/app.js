@@ -205,13 +205,14 @@ validationButton.addEventListener("click", async () => {
           returnButton.id = "returnButton"; 
           returnButton.style.display = "block";
           returnButton.style.margin = "20px auto";
-          returnButton.style.padding = "10px";
+          returnButton.style.padding = "10px 20px";
           returnButton.style.backgroundColor = "#0f3359";
           returnButton.style.color = "white";
           returnButton.style.border = "none";
           returnButton.style.cursor = "pointer";
-          returnButton.style.fontSize = "16px";
+          returnButton.style.setProperty('font-weight', 'bold', 'important');
           returnButton.style.borderRadius = "5px";
+          returnButton.style.maxWidth = "280px";
 
           // Ajoute une action pour recharger la page
           returnButton.addEventListener("click", () => {

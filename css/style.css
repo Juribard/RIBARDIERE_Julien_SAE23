@@ -8,7 +8,6 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
@@ -18,6 +17,7 @@ body {
   font-size: 1.25rem;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background: linear-gradient(to right, #0f3359, #c2c2c2);
+  margin: 0 auto;
 }
 
 header {
@@ -48,7 +48,6 @@ h1 {
   background-color: var(--color-primary);
   border: 2px solid var(--color-secondary);
   margin: 20px auto;
-  width: 80%;
   border-radius: 15px;
   padding: 10px;
 }
@@ -105,6 +104,7 @@ h1 {
 #communeSelect {
   display: none;
   margin-top: 10px;
+  margin-bottom: 10px;
   padding: 5px;
   z-index: 999;
 }
@@ -119,11 +119,9 @@ h1 {
 #weatherInformation {
   display: none;
   justify-content: space-between;
-  align-items: center;
   background-color: var(--color-primary);
   border: 2px solid var(--color-secondary);
   margin: 20px auto;
-  width: 80%;
   border-radius: 15px;
   padding: 10px;
 }
@@ -151,12 +149,14 @@ h1 {
 .info_meteo {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.reloadButton { /**/
-  width: 280px;
+.reloadButton {
+  max-width: 280px;
   margin: 20px auto;
   padding: 10px 20px;
+  display: flex;
   text-align: center;
   background-color: var(--color-secondary);
   color: var(--color-font);
@@ -196,7 +196,7 @@ h1 {
 
 /*-----------------Les Options-------------------------------*/
 fieldset {
-  margin: 10px 40px 10px 20px;
+  margin: 10px 40px 10px 20px auto;
   padding-top: 20px;
   padding-bottom: 20px;
   border: solid 2px;
@@ -226,7 +226,6 @@ fieldset {
   flex-direction: column;
   gap: 5px;
   padding: 10px;
-  width: 100%; /* Assure que le tableau prend toute la largeur */
   overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
   max-width: 100%; 
   white-space: nowrap;
@@ -240,7 +239,6 @@ fieldset {
 }
 
 .weatherCell {
-  font-size: 1.2vw;
   min-width: 120px;
   text-align: center;
   margin: 0;
@@ -280,8 +278,6 @@ fieldset {
   gap: 20px; 
   padding: 0;
   margin-top: 10px;
-  width: 100%;
-  
 }
 
 .graph_clique {
@@ -291,6 +287,10 @@ fieldset {
   color: var(--color-secondary);
   font: bolder;
   margin-bottom: 5px;
+}
+
+canvas {
+  margin: 0 !important;
 }
 
 .graphique canvas {
@@ -304,17 +304,6 @@ fieldset {
 }
 
 /* ------------------- MEDIA QUERIES ----------------------- */
-
-@media screen and (max-width: 1024px) {
-  #weatherInformation {
-    flex-wrap: wrap;
-  }
-  .weatherCell {
-    font-size: 14px;
-  }
-
-}
-
 @media screen and (max-width: 600px) {
   .graphique canvas {
     width: 98% !important;
@@ -324,7 +313,14 @@ fieldset {
 
 @media screen and (max-width: 425px) {
   #cityForm {
-    width: 95%;
-    margin: 8px auto;
+    margin: 1px auto;
+    align-items: center;
+  }
+  .fieldset {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .graphique canvas {
+    height: 400px !important;
   }
 }
