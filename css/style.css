@@ -196,7 +196,7 @@ h1 {
 
 /*-----------------Les Options-------------------------------*/
 fieldset {
-  margin: 10px 40px 10px 20px auto;
+  margin: 10px auto;
   padding-top: 20px;
   padding-bottom: 20px;
   border: solid 2px;
