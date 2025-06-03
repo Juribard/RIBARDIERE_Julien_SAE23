@@ -197,6 +197,13 @@ validationButton.addEventListener("click", async () => {
               windCanvas.style.display = 'none';
               if (window.windChartInstance) window.windChartInstance.destroy();
           }
+          // Masquer/afficher le bouton du graphique vent moyen
+          const windBtn = document.querySelectorAll('.graph_clique')[3]; // 4e bouton (index 3)
+          if (selectedOptions.includes('windSpeed')) {
+            windBtn.style.display = 'block';
+          } else {
+            windBtn.style.display = 'none';
+          }
 
           console.log("Options sélectionnées après validation :", selectedOptions);
           // Création du bouton "Retour"
