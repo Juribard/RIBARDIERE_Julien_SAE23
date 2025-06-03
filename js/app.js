@@ -226,7 +226,7 @@ validationButton.addEventListener("click", async () => {
               location.reload(); // 🔄 Recharge toute la page
           });
 
-          // ✅ Insère le bouton sous la météo
+          // Insère le bouton sous la météo
           document.getElementById("weatherInformation").appendChild(returnButton);
 
           console.log("multiData récupéré depuis fetchMultipleDays :", multiData);
@@ -238,7 +238,7 @@ validationButton.addEventListener("click", async () => {
 
 const selectedDaysElem = document.getElementById("selectedDays");
 
-// ✅ Mettre à jour le texte en fonction du curseur
+// Mettre à jour le texte en fonction du curseur
 daysRangeElem.addEventListener("input", () => {
     selectedDaysElem.textContent = `${daysRangeElem.value} jour${daysRangeElem.value > 1 ? 's' : ''}`;
 });
@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 canvases[i].style.display = "none";
             }
         });
-        // Par défaut, tu peux masquer les canvas si tu veux :
+        // possibilité de masquer les canvases au chargement
         canvases[i].style.display = "none";
     });
 });

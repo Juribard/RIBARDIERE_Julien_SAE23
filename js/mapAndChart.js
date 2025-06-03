@@ -4,11 +4,11 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
     const oldTable = resultSection.querySelector('.weatherContainer');
     if (oldTable) oldTable.remove();
 
-    // ✅ Correction : Création du container au BON endroit
+    // Création du container
     let tableContainer = document.createElement("div");
     tableContainer.classList.add("weatherContainer");
 
-    // ✅ Création de l'en-tête avec les dates réelles
+    // Création de l'en-tête avec les dates 
     let headerRow = document.createElement("div");
     headerRow.classList.add("weatherRow", "headerRow");
 
@@ -21,7 +21,7 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         let headerCell = document.createElement("div");
         headerCell.classList.add("weatherCell", "headerCell");
         
-        // ✅ Vérifier que `datetime` existe avant de le convertir
+        // Vérifie que `datetime` existe avant de le convertir
         if (dayData.datetime) {
             let date = new Date(dayData.datetime);
             let formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
@@ -33,10 +33,10 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         headerRow.appendChild(headerCell);
     });
 
-    // ✅ Ajout de l'en-tête AVANT les données
+    // Ajout de l'en-tête AVANT les données
     tableContainer.appendChild(headerRow);
 
-    // ✅ Fusionner l'en-tête avec les données
+    // Fusionner l'en-tête avec les données
     let essentialElements = {
         "tmin": "Température min (°C)",
         "tmax": "Température max (°C)",
@@ -44,11 +44,6 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
         "sun_hours": "Ensoleillement (h)"
     };
 
-    //let selectableElements = {
-    //    "rr10": "Cumul de pluie (mm)",
-    //    "wind10m": "Vent moyen (km/h)",
-    //    "dirwind10m": "Direction du vent (°)"
-    //};
     const optionIdToDataKey = {
         rainfall: "rr10",
         windSpeed: "wind10m",
@@ -96,7 +91,7 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
     tableContainer.appendChild(row);
     });
 
-    // ✅ Ajout du tableau dans la section d'affichage
+    // Ajout du tableau dans la section d'affichage
     resultSection.appendChild(tableContainer);
         let graphiqueDiv = document.querySelector('.graphique');
     if (graphiqueDiv) {
