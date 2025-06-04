@@ -180,7 +180,7 @@ validationButton.addEventListener("click", async () => {
           // Récupère les options sélectionnées par l'utilisateur
           const selectedOptions = Array.from(document.querySelectorAll('fieldset.option input[type="checkbox"]:checked')).map(cb => cb.id);
 
-          document.querySelector('.info_météo_rangement').style.display = "none";
+          document.querySelector('.organization_weather_info').style.display = "none";
 
           // Affiche le tableau météo multi-jours
           generateWeatherTable(multiData, selectedOptions);
