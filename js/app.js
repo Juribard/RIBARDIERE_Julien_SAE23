@@ -3,7 +3,7 @@
 // --------------
 // PARTIE 1 : COMMUNES / CODE POSTAL
 // --------------
-const codePostalInput    = document.getElementById("code-postal");
+const codePostalInput    = document.getElementById("postal-code");
 const communeSelect      = document.getElementById("communeSelect");
 const validationButton   = document.getElementById("validationButton");
 
