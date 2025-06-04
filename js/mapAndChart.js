@@ -93,9 +93,9 @@ window.generateWeatherTable = function(dataArray, selectedOptions) {
 
     // Ajout du tableau dans la section d'affichage
     resultSection.appendChild(tableContainer);
-        let graphiqueDiv = document.querySelector('.chart');
-    if (graphiqueDiv) {
-        resultSection.appendChild(graphiqueDiv);
+        let chartDiv = document.querySelector('.chart');
+    if (chartDiv) {
+        resultSection.appendChild(chartDiv);
     }
     resultSection.style.display = "block";
 };
