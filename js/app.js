@@ -136,7 +136,7 @@ validationButton.addEventListener("click", async () => {
         try {
             document.getElementById("result").textContent = "";
             document.getElementById("weatherInformation").style.display = "block";
-            document.querySelector('.graphique').style.display = "none";
+            document.querySelector('.chart').style.display = "none";
             const oneDayData = await fetchOneDay(insee);
             createCard(oneDayData);
         } catch (err) {
@@ -147,7 +147,7 @@ validationButton.addEventListener("click", async () => {
 
           const multiData = await fetchMultipleDays(insee, selectedDays);
           document.getElementById("weatherInformation").style.display = "block";
-          document.querySelector('.graphique').style.display = "flex";
+          document.querySelector('.chart').style.display = "flex";
           // Récupère les infos de la ville (latitude/longitude) via une requête API
           const cityInfoResp = await fetch(`https://geo.api.gouv.fr/communes/${insee}`);
           const cityInfo = await cityInfoResp.json();
@@ -198,7 +198,7 @@ validationButton.addEventListener("click", async () => {
               if (window.windChartInstance) window.windChartInstance.destroy();
           }
           // Masquer/afficher le bouton du graphique vent moyen
-          const windBtn = document.querySelectorAll('.graph_clique')[3]; // 4e bouton (index 3)
+          const windBtn = document.querySelectorAll('.chart-click')[3]; // 4e bouton (index 3)
           if (selectedOptions.includes('windSpeed')) {
             windBtn.style.display = 'block';
           } else {
@@ -245,9 +245,9 @@ daysRangeElem.addEventListener("input", () => {
 
 document.addEventListener("DOMContentLoaded", function() {
     // Récupère tous les boutons et tous les canvas dans .graphique
-    const graphDiv = document.querySelector('.graphique');
+    const graphDiv = document.querySelector('.chart');
     if (!graphDiv) return;
-    const buttons = graphDiv.querySelectorAll('.graph_clique');
+    const buttons = graphDiv.querySelectorAll('.chart-click');
     const canvases = graphDiv.querySelectorAll('canvas');
 
     buttons.forEach((btn, i) => {

@@ -269,7 +269,7 @@ fieldset {
   align-items: center; 
 }
 /*---------------graphique-----------------*/
-.graphique {
+.chart {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -278,7 +278,7 @@ fieldset {
   margin-top: 10px;
 }
 
-.graph_clique {
+.chart-click {
   padding: 5px;
   border-radius: 5px;
   background-color: var(--color-primary);
@@ -291,7 +291,7 @@ canvas {
   margin: 0 !important;
 }
 
-.graphique canvas {
+.chart canvas {
   width: 75% !important;
   max-width: 900px;
   min-width: 200px;
@@ -303,7 +303,7 @@ canvas {
 
 /* ------------------- MEDIA QUERIES ----------------------- */
 @media screen and (max-width: 600px) {
-  .graphique canvas {
+  .chart canvas {
     width: 98% !important;
     min-width: 0;
   }
@@ -318,7 +318,7 @@ canvas {
     padding-top: 0;
     padding-bottom: 0;
   }
-  .graphique canvas {
+  .chart canvas {
     height: 400px !important;
   }
 }
