@@ -159,7 +159,7 @@ validationButton.addEventListener("click", async () => {
           }
           document.getElementById("weatherName").style.textAlign = "center";
 
-          document.getElementById("coordonnees").style.display = "block";
+          document.getElementById("coordinate").style.display = "block";
           console.log("COORDONNÉES :", cityInfo);
           document.getElementById("currentDateTime").textContent = `Date : ${new Date().toLocaleString()}`;
 

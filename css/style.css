@@ -140,7 +140,7 @@ h1 {
   margin-bottom: 15px;
 }
 
-.info_meteo {
+.weather-info {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -166,7 +166,7 @@ h1 {
   color: var(--color-secondary);
 }
 /*-----Les_coordonnées--------------*/
-#coordonnees {
+#coordinate {
   display: none;
   background-color: var(--color-secondary);
   color: var(--color-font);
@@ -177,11 +177,11 @@ h1 {
   width: 80%;
 }
 
-#coordonnees p {
+#coordinate p {
   color: white !important;
 }
 
-#weatherInformation #coordonnees {
+#weatherInformation #coordinate {
   display: block !important;
   border-radius: 5px !important;
   padding: 10px !important;
