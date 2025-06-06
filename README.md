@@ -1,13 +1,13 @@
 # Instant-Weather README
 
 Auteur: Julien RIBARDIERE
-Code source original: https://princecorg.github.io/Instant-Weather/
+Code source originel: https://princecorg.github.io/Instant-Weather/
 
 **Explications:**   
 
 Le but de ce projet est de créer un site internet dynamique ayant pour but de présenter la météo pour 1 jours ou durant 7 jours en manipulant une API de Météoconcept ainsi que l'API des découpage administrative des communes.
 
-En raison de ne pas etre parvenu à joindre l'API de Meteoconcept avec l'API du gouvernement lors d'un travail de groupe, il a été préférable de se baser sur le code sources de l'enseignant dans l'objectif de ne pas perdre de temps.
+En raison de ne pas etre parvenu à joindre l'API de Meteoconcept avec l'API du gouvernement lors d'un travail de groupe, il a été préférable de se baser sur le code sources de l'enseignant dans l'objectif de ne pas perdre de temps mais aussi de mieux comprendre le fonctionnement de Javascript dans le cadre de la soliciation des API.
 
 **Les api utilisées**
 - l'API de découpage administratif par commune : https://geo.api.gouv.fr/decoupage-administratif/communes
@@ -27,10 +27,12 @@ En raison de ne pas etre parvenu à joindre l'API de Meteoconcept avec l'API du 
 Pour utiliser le site, il suffit de :
 - <u>Écrire</u> le code postal de la commune.
 - <u>Choisir</u> le nombre de jours pour les prévisions.
-- <u>Sélectionner</u> l'une des communes proposées.
+- <u>Sélectionner</u> l'une des communes proposées (si le site le propose).
 - <u>Cocher</u> ou non les options que vous souhaitez voir.
 - <u>Cliquer</u> sur "Valider".
 Dans le cas où l'utilisateur sélectionne <u>2 jours ou plus</u> (jusqu'à 7), il a accès à un tableau récapitulatif ainsi qu'à des graphiques prévisionnels.
+
+En cas de problème, le logo est cliquable dans l'objectif de recharger la page.
 
 **Notes:**
 - Le site est adaptable à tout les écrans (Responsive Web Design)
