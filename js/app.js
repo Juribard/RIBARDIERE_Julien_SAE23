@@ -209,17 +209,8 @@ validationButton.addEventListener("click", async () => {
           // Création du bouton "Retour"
           let returnButton = document.createElement("button");
           returnButton.textContent = "Nouvelle recherche";
-          returnButton.id = "returnButton"; 
-          returnButton.style.display = "block";
-          returnButton.style.margin = "20px auto";
-          returnButton.style.padding = "10px 20px";
-          returnButton.style.backgroundColor = "#0f3359";
-          returnButton.style.color = "white";
-          returnButton.style.border = "none";
-          returnButton.style.cursor = "pointer";
-          returnButton.style.setProperty('font-weight', 'bold', 'important');
-          returnButton.style.borderRadius = "5px";
-          returnButton.style.maxWidth = "280px";
+          returnButton.id = "returnButton";
+          returnButton.className = "return-button";
 
           // Ajoute une action pour recharger la page
           returnButton.addEventListener("click", () => {

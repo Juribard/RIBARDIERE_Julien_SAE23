@@ -146,7 +146,8 @@ h1 {
   align-items: center;
 }
 
-.reloadButton {
+/*-----------Bouton------------*/
+.reloadButton, #returnButton {
   max-width: 280px;
   margin: 20px auto;
   padding: 10px 20px;
@@ -160,7 +161,7 @@ h1 {
   font-weight: bold;
 }
 
-.reloadButton:hover {
+.reloadButton:hover, #returnButton:hover {
   background-color: white;
   border: 2px solid var(--color-secondary);
   color: var(--color-secondary);
